@@ -7,6 +7,17 @@ function parsePlacesAndConvert (num) {
   } else if (num.length === 2) {
     output += parseTens(num[0]);
     output += parseOnes(num[1]);
+  } else if (num.length === 3) {
+    output += parseHundreds(num[0]);
+    output += parseTens(num[1]);
+    output += parseOnes(num[2]);
+  } else if (num.length === 4 && num < 4000) {
+    output += parseThousands(num[0]);
+    output += parseHundreds(num[1]);
+    output += parseTens(num[2]);
+    output += parseOnes(num[3]);
+  } else if (num >= 4000) {
+    output += "Requested number is too large.";
   }
   return output;
 }
@@ -50,6 +61,38 @@ function parseTens (numString) {
   }
   return output;
 }
+
+function parseHundreds (numString) {
+  var output = "";
+  var num = parseInt(numString);
+  if (num <= 3) {
+    for (var i = 0; i < num; i++) {
+      output += "C";
+    }
+  } else if (num === 4) {
+    output += "CD";
+  } else if (num > 4 && num < 9) {
+    output += "D";
+    for (var i = 0; i < num - 5; i++) {
+      output += "C";
+    }
+  } else if (num === 9) {
+    output += "CM";
+  }
+  return output;
+}
+
+function parseThousands (numString) {
+  var output = "";
+  var num = parseInt(numString);
+  if (num <= 4) {
+    for (var i = 0; i < num; i++) {
+      output += "M";
+    }
+  }
+  return output;
+}
+
 //Front-End Logic
 $(function() {
   $("form").keyup(function() {
